@@ -44,7 +44,7 @@ type
    * camera already look in the right direction.
    *
   *}
-  TaiCamera = record;
+  TaiCamera = record
     {** The name of the camera.
      *
      *  There must be a node in the scenegraph with the same name.

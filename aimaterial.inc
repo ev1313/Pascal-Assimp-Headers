@@ -2,7 +2,7 @@
 
 // Name for default materials (2nd is used if meshes have UV coords)
 const
-  AI_DEFAULT_MATERIAL_NAME = "DefaultMaterial";
+  AI_DEFAULT_MATERIAL_NAME = 'DefaultMaterial';
 
 // ---------------------------------------------------------------------------
   {** @brief Defines how the Nth texture of a specific type is combined with
@@ -86,15 +86,15 @@ const
      *  meshes can have more than one UV channel).
      *}
     aiTextureMapping_UV = $0;
-	 {** Spherical mapping *}
+    {** Spherical mapping *}
     aiTextureMapping_SPHERE = $1;
-	 {** Cylindrical mapping *}
+    {** Cylindrical mapping *}
     aiTextureMapping_CYLINDER = $2;
-	 {** Cubic mapping *}
+    {** Cubic mapping *}
     aiTextureMapping_BOX = $3;
-	 {** Planar mapping *}
+    {** Planar mapping *}
     aiTextureMapping_PLANE = $4;
-	 {** Undefined mapping. Have fun. *}
+    {** Undefined mapping. Have fun. *}
     aiTextureMapping_OTHER = $5;
 
 type
@@ -115,83 +115,71 @@ type
    *  and the artists working on models have to conform to this specification,
    *  regardless which 3D tool they're using.
    *}
-   const
-	{** Dummy value.
-	 *
-	 *  No texture, but the value to be used as 'texture semantic'
-	 *  (#aiMaterialProperty::mSemantic) for all material properties
-	 *  *not* related to textures.
-	 *}
-	aiTextureType_NONE = $0;
-
-
-
-    /** The texture is combined with the result of the diffuse
-	 *  lighting equation.
-     */
-    aiTextureType_DIFFUSE = 0x1,
-
-	/** The texture is combined with the result of the specular
-	 *  lighting equation.
-     */
-    aiTextureType_SPECULAR = 0x2,
-
-	/** The texture is combined with the result of the ambient
-	 *  lighting equation.
-     */
-    aiTextureType_AMBIENT = 0x3,
-
-	/** The texture is added to the result of the lighting
-	 *  calculation. It isn't influenced by incoming light.
-     */
-    aiTextureType_EMISSIVE = 0x4,
-
-	/** The texture is a height map.
-	 *
-	 *  By convention, higher gray-scale values stand for
-	 *  higher elevations from the base height.
-     */
-    aiTextureType_HEIGHT = 0x5,
-
-	/** The texture is a (tangent space) normal-map.
-	 *
-	 *  Again, there are several conventions for tangent-space
-	 *  normal maps. Assimp does (intentionally) not
-	 *  distinguish here.
-     */
-    aiTextureType_NORMALS = 0x6,
-
-	/** The texture defines the glossiness of the material.
-	 *
-	 *  The glossiness is in fact the exponent of the specular
-	 *  (phong) lighting equation. Usually there is a conversion
-	 *  function defined to map the linear color values in the
-	 *  texture to a suitable exponent. Have fun.
-    */
-    aiTextureType_SHININESS = 0x7,
-
-	/** The texture defines per-pixel opacity.
-	 *
-	 *  Usually 'white' means opaque and 'black' means
-	 *  'transparency'. Or quite the opposite. Have fun.
-    */
-    aiTextureType_OPACITY = 0x8,
-
-	/** Displacement texture
-	 *
-	 *  The exact purpose and format is application-dependent.
-     *  Higher color values stand for higher vertex displacements.
-    */
-    aiTextureType_DISPLACEMENT = 0x9,
-
-	/** Lightmap texture (aka Ambient Occlusion)
-	 *
-	 *  Both 'Lightmaps' and dedicated 'ambient occlusion maps' are
-	 *  covered by this material property. The texture contains a
-	 *  scaling value for the final color value of a pixel. Its
-	 *  intensity is not affected by incoming light.
-    */
-    aiTextureType_LIGHTMAP = 0xA,
+const
+  {** Dummy value.
+   *
+   *  No texture, but the value to be used as 'texture semantic'
+   *  (#aiMaterialProperty::mSemantic) for all material properties
+   *  *not* related to textures.
+   *}
+  aiTextureType_NONE = $0;
+  {** The texture is combined with the result of the diffuse
+   *  lighting equation.
+   *}
+  aiTextureType_DIFFUSE = $1;
+  {** The texture is combined with the result of the specular
+   *  lighting equation.
+   *}
+  aiTextureType_SPECULAR = $2;
+  {** The texture is combined with the result of the ambient
+   *  lighting equation.
+   *}
+  aiTextureType_AMBIENT = $3;
+  {** The texture is added to the result of the lighting
+   *  calculation. It isn't influenced by incoming light.
+   *}
+  aiTextureType_EMISSIVE = $4;
+  {** The texture is a height map.
+   *
+   *  By convention, higher gray-scale values stand for
+   *  higher elevations from the base height.
+   *}
+  aiTextureType_HEIGHT = $5;
+  {** The texture is a (tangent space) normal-map.
+   *
+   *  Again, there are several conventions for tangent-space
+   *  normal maps. Assimp does (intentionally) not
+   *  distinguish here.
+   *}
+  aiTextureType_NORMALS = $6;
+  {** The texture defines the glossiness of the material.
+   *
+   *  The glossiness is in fact the exponent of the specular
+   *  (phong) lighting equation. Usually there is a conversion
+   *  function defined to map the linear color values in the
+   *  texture to a suitable exponent. Have fun.
+   *}
+  aiTextureType_SHININESS = $7;
+  {** The texture defines per-pixel opacity.
+   *
+   *  Usually 'white' means opaque and 'black' means
+   *  'transparency'. Or quite the opposite. Have fun.
+   *}
+  aiTextureType_OPACITY = $8;
+  {** Displacement texture
+   *
+   *  The exact purpose and format is application-dependent.
+   *  Higher color values stand for higher vertex displacements.
+   *}
+  aiTextureType_DISPLACEMENT = $9;
+  {** Lightmap texture (aka Ambient Occlusion)
+   *
+   *  Both 'Lightmaps' and dedicated 'ambient occlusion maps' are
+   *  covered by this material property. The texture contains a
+   *  scaling value for the final color value of a pixel. Its
+   *  intensity is not affected by incoming light.
+   *}
+  aiTextureType_LIGHTMAP = $A;
 
   {** Reflection texture
    *
@@ -225,101 +213,91 @@ type
    *  3D modeller which wrote a particular model as closely as possible.
    *}
 const
-    {** Flat shading. Shading is done on per-face base,
-     *  diffuse only. Also known as 'faceted shading'.
-     *}
-    aiShadingMode_Flat = $1;
+  {** Flat shading. Shading is done on per-face base,
+   *  diffuse only. Also known as 'faceted shading'.
+   *}
+  aiShadingMode_Flat = $1;
 
-    {** Simple Gouraud shading. *}
-    aiShadingMode_Gouraud = $2;
+  {** Simple Gouraud shading. *}
+  aiShadingMode_Gouraud = $2;
 
-    {** Phong-Shading - *}
-    aiShadingMode_Phong = $3;
+  {** Phong-Shading - *}
+  aiShadingMode_Phong = $3;
 
-    {** Phong-Blinn-Shading *}
-    aiShadingMode_Blinn	= $4;
+  {** Phong-Blinn-Shading *}
+  aiShadingMode_Blinn	= $4;
 
-    {** Toon-Shading per pixel
-     *
-     *  Also known as 'comic' shader.
-     *}
-    aiShadingMode_Toon = $5;
+  {** Toon-Shading per pixel
+   *
+   *  Also known as 'comic' shader.
+   *}
+  aiShadingMode_Toon = $5;
 
-    {** OrenNayar-Shading per pixel
-     *
-     *  Extension to standard Lambertian shading, taking the
-     *  roughness of the material into account
-     *}
-    aiShadingMode_OrenNayar = $6;
+  {** OrenNayar-Shading per pixel
+   *
+   *  Extension to standard Lambertian shading, taking the
+   *  roughness of the material into account
+   *}
+  aiShadingMode_OrenNayar = $6;
 
-    {** Minnaert-Shading per pixel
-     *
-     *  Extension to standard Lambertian shading, taking the
-     *  "darkness" of the material into account
-     *}
-    aiShadingMode_Minnaert = $7;
+  {** Minnaert-Shading per pixel
+   *
+   *  Extension to standard Lambertian shading, taking the
+   *  "darkness" of the material into account
+   *}
+  aiShadingMode_Minnaert = $7;
 
-    {** CookTorrance-Shading per pixel
-     *
-     *  Special shader for metallic surfaces.
-     *}
-    aiShadingMode_CookTorrance = $8;
+  {** CookTorrance-Shading per pixel
+   *
+   *  Special shader for metallic surfaces.
+   *}
+  aiShadingMode_CookTorrance = $8;
 
-    {** No shading at all. Constant light influence of 1.0. *}
-    aiShadingMode_NoShading = $9;
+  {** No shading at all. Constant light influence of 1.0. *}
+  aiShadingMode_NoShading = $9;
 
-    {** Fresnel shading *}
-    aiShadingMode_Fresnel = $a;
+  {** Fresnel shading *}
+  aiShadingMode_Fresnel = $a;
 
 type
   TaiShadingMode = Integer;
 
 
 // ---------------------------------------------------------------------------
-/** @brief Defines some mixed flags for a particular texture.
- *
- *  Usually you'll instruct your cg artists how textures have to look like ...
- *  and how they will be processed in your application. However, if you use
- *  Assimp for completely generic loading purposes you might also need to
- *  process these flags in order to display as many 'unknown' 3D models as
- *  possible correctly.
- *
- *  This corresponds to the #AI_MATKEY_TEXFLAGS property.
-*/
-enum aiTextureFlags
-{
-	/** The texture's color values have to be inverted (componentwise 1-n)
-	 */
-	aiTextureFlags_Invert = 0x1,
+  {** @brief Defines some mixed flags for a particular texture.
+   *
+   *  Usually you'll instruct your cg artists how textures have to look like ...
+   *  and how they will be processed in your application. However, if you use
+   *  Assimp for completely generic loading purposes you might also need to
+   *  process these flags in order to display as many 'unknown' 3D models as
+   *  possible correctly.
+   *
+   *  This corresponds to the #AI_MATKEY_TEXFLAGS property.
+   *}
+const
+  {** The texture's color values have to be inverted (componentwise 1-n) *}
+  aiTextureFlags_Invert = $1;
 
-	/** Explicit request to the application to process the alpha channel
-	 *  of the texture.
-	 *
-	 *  Mutually exclusive with #aiTextureFlags_IgnoreAlpha. These
-	 *  flags are set if the library can say for sure that the alpha
-	 *  channel is used/is not used. If the model format does not
-	 *  define this, it is left to the application to decide whether
-	 *  the texture alpha channel - if any - is evaluated or not.
-	 */
-	aiTextureFlags_UseAlpha = 0x2,
+  {** Explicit request to the application to process the alpha channel
+   *  of the texture.
+   *
+   *  Mutually exclusive with #aiTextureFlags_IgnoreAlpha. These
+   *  flags are set if the library can say for sure that the alpha
+   *  channel is used/is not used. If the model format does not
+   *  define this, it is left to the application to decide whether
+   *  the texture alpha channel - if any - is evaluated or not.
+   *}
+  aiTextureFlags_UseAlpha = $2;
 
-	/** Explicit request to the application to ignore the alpha channel
-	 *  of the texture.
-	 *
-	 *  Mutually exclusive with #aiTextureFlags_UseAlpha.
-	 */
-	aiTextureFlags_IgnoreAlpha = 0x4,
+  {** Explicit request to the application to ignore the alpha channel
+   *  of the texture.
+   *
+   *  Mutually exclusive with #aiTextureFlags_UseAlpha.
+   *}
+  aiTextureFlags_IgnoreAlpha = $4;
 
-	 /** @cond never
-	  *  This value is not used. It forces the compiler to use at least
-	  *  32 Bit integers to represent this enum.
-	  */
-#ifndef SWIG
-	  _aiTextureFlags_Force32Bit = INT_MAX
-#endif
-	//! @endcond
-};
-
+type
+  TaiTextureFlags = Integer;
 
 // ---------------------------------------------------------------------------
 /** @brief Defines alpha-blend flags.
