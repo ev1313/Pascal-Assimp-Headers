@@ -96,6 +96,8 @@ const
     {$ENDIF}
   {$ENDIF}
 
+  {$MACRO ON}
+
   {$I aiversion.inc}
   {$I aivector2.inc}
   {$I aivector3.inc}
@@ -112,6 +114,11 @@ const
   {$I aiscene.inc}
 
 implementation
+
+function aiGetMaterialFloat(const pMat: PaiMaterial; const pKey: PChar; type_: CUInt; index: CUInt; pOut: PSingle): TaiReturn;
+begin
+  Result := aiGetMaterialFloatArray(pMat, pKey, type_, index, pOut, nil);
+end;
 
 end.
 
