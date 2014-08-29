@@ -44,6 +44,7 @@ const
 
 type
   TaiTextureOp = Integer;
+  PaiTextureOP = ^TaiTextureOP;
 
 // ---------------------------------------------------------------------------
   {** @brief Defines how UV coordinates outside the [0...1] range are handled.
@@ -68,6 +69,7 @@ const
 
 type
   TaiTextureMapMode = Integer;
+  PaiTextureMapMode = ^TaiTextureMapMode;
 
 // ---------------------------------------------------------------------------
   {** @brief Defines how the mapping coords for a texture are generated.
@@ -99,6 +101,7 @@ const
 
 type
   TaiTextureMapping = Integer;
+  PaiTextureMapping = ^TaiTextureMapping;
 
 // ---------------------------------------------------------------------------
   {** @brief Defines the purpose of a texture
@@ -199,6 +202,7 @@ const
 
 type
   TaiTextureType = Integer;
+  PaiTextureType = ^TaiTextureType;
 
 // ---------------------------------------------------------------------------
   {** @brief Defines all shading models supported by the library
@@ -261,7 +265,7 @@ const
 
 type
   TaiShadingMode = Integer;
-
+  PaiShadingMode = ^TaiShadingMode;
 
 // ---------------------------------------------------------------------------
   {** @brief Defines some mixed flags for a particular texture.
@@ -298,6 +302,7 @@ const
 
 type
   TaiTextureFlags = Integer;
+  PaiTextureFlags = ^TaiTextureFlags;
 
 // ---------------------------------------------------------------------------
   {** @brief Defines alpha-blend flags.
@@ -337,6 +342,7 @@ const
   // in future versions ...
 type
   TaiBlendMode = Integer;
+  PaiBlendMode = ^TaiBlendMode;
 
 // ---------------------------------------------------------------------------
   {** @brief Defines how an UV channel is transformed.
@@ -369,6 +375,7 @@ type
      *}
     mRotation: Single;
   end;
+  PaiUVTransform = ^TaiUVTransform;
 
 //! @cond AI_DOX_INCLUDE_INTERNAL
 // ---------------------------------------------------------------------------
@@ -400,6 +407,7 @@ const
   aiPTI_Buffer  = $5;
 type
   TaiPropertyTypeInfo = Integer;
+  PaiPropertyTypeInfo = ^TaiPropertyTypeInfo;
 
 // ---------------------------------------------------------------------------
   {** @brief Data structure for a single material property
@@ -474,6 +482,7 @@ type
     {** Storage allocated *}
     mNumAllocated: CUInt;
   end;
+  PaiMaterial = ^TaiMaterial;
 
 // ---------------------------------------------------------------------------
 {$DEFINE AI_MATKEY_NAME:='?mat.name',0,0}
@@ -698,9 +707,9 @@ function aiGetMaterialProperty(const pMat: PaiMaterial;
    * unsigned int max = sizeof(aiUVTransform);
    * if (AI_SUCCESS != aiGetMaterialFloatArray(mat, AI_MATKEY_UVTRANSFORM(aiTextureType_DIFFUSE,0),
    *    (float*)&trafo, &max) || sizeof(aiUVTransform) != max)
-   * {
+   *
    *   // error handling
-   * }
+   *
    * @endcode
    *
    * @param pMat Pointer to the input material. May not be NULL
@@ -756,7 +765,6 @@ function aiGetMaterialIntegerArray(const pMat: PaiMaterial;
                                    index: CUInt;
                                    pOut: PInteger;
                                    pMax: PCUInt): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialIntegerArray' {$ENDIF} {$ENDIF};
-#ifdef __cplusplus
 
 // ---------------------------------------------------------------------------
   {** @brief Retrieve an integer property with a specific key from a material
@@ -773,101 +781,80 @@ function aiGetMaterialInteger(const pMat: PaiMaterial;
   {** @brief Retrieve a color value from the material property table
   *
   * See the sample for aiGetMaterialFloat for more information*}
-// ---------------------------------------------------------------------------
-ASSIMP_API C_ENUM aiReturn aiGetMaterialColor(const C_STRUCT aiMaterial* pMat,
-    const char* pKey,
-	 unsigned int type,
-    unsigned int index,
-	 C_STRUCT aiColor4D* pOut);
-
+function aiGetMaterialColor(const pMat: PaiMaterial;
+                            const pKey: PChar;
+                            type_: CUInt;
+                            index: CUInt;
+                            pOut: PaiColor4D): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialColor' {$ENDIF} {$ENDIF};
 
 // ---------------------------------------------------------------------------
   {** @brief Retrieve a aiUVTransform value from the material property table
   *
   * See the sample for aiGetMaterialFloat for more information*}
-// ---------------------------------------------------------------------------
-ASSIMP_API C_ENUM aiReturn aiGetMaterialUVTransform(const C_STRUCT aiMaterial* pMat,
-    const char* pKey,
-	 unsigned int type,
-    unsigned int index,
-	 C_STRUCT aiUVTransform* pOut);
-
+function aiGetMaterialUVTransform(const pMat: PaiMaterial;
+                                  const pKey: PChar;
+                                  type_: CUInt;
+                                  index: CUInt;
+                                  pOut: PaiUVTransform): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialUVTransform' {$ENDIF} {$ENDIF};
 
 // ---------------------------------------------------------------------------
-/** @brief Retrieve a string from the material property table
-*
-* See the sample for aiGetMaterialFloat for more information.*/
+  {** @brief Retrieve a string from the material property table
+  *
+  * See the sample for aiGetMaterialFloat for more information.*}
 // ---------------------------------------------------------------------------
-ASSIMP_API C_ENUM aiReturn aiGetMaterialString(const C_STRUCT aiMaterial* pMat,
-    const char* pKey,
-	 unsigned int type,
-    unsigned int index,
-    C_STRUCT aiString* pOut);
+function aiGetMaterialString(const pMat: PaiMaterial;
+                             const pKey: PChar;
+                             type_: CUInt;
+                             index: CUInt;
+                             pOut: PaiString): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialString' {$ENDIF} {$ENDIF};
 
 // ---------------------------------------------------------------------------
-/** Get the number of textures for a particular texture type.
- *  @param[in] pMat Pointer to the input material. May not be NULL
- *  @param type Texture type to check for
- *  @return Number of textures for this type.
- *  @note A texture can be easily queried using #aiGetMaterialTexture() */
-// ---------------------------------------------------------------------------
-ASSIMP_API unsigned int aiGetMaterialTextureCount(const C_STRUCT aiMaterial* pMat,
-	C_ENUM aiTextureType type);
+  {** Get the number of textures for a particular texture type.
+   *  @param[in] pMat Pointer to the input material. May not be NULL
+   *  @param type Texture type to check for
+   *  @return Number of textures for this type.
+   *  @note A texture can be easily queried using #aiGetMaterialTexture() *}
+function aiGetMaterialTextureCount(const pMat: PaiMaterial;
+                                   type_: TaiTextureType): CUInt cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialTextureCount' {$ENDIF} {$ENDIF};
 
 // ---------------------------------------------------------------------------
-/** @brief Helper function to get all values pertaining to a particular
- *  texture slot from a material structure.
- *
- *  This function is provided just for convenience. You could also read the
- *  texture by parsing all of its properties manually. This function bundles
- *  all of them in a huge function monster.
- *
- *  @param[in] mat Pointer to the input material. May not be NULL
- *  @param[in] type Specifies the texture stack to read from (e.g. diffuse,
- *     specular, height map ...).
- *  @param[in] index Index of the texture. The function fails if the
- *     requested index is not available for this texture type.
- *     #aiGetMaterialTextureCount() can be used to determine the number of
- *     textures in a particular texture stack.
- *  @param[out] path Receives the output path
- *      This parameter must be non-null.
- *  @param mapping The texture mapping mode to be used.
- *      Pass NULL if you're not interested in this information.
- *  @param[out] uvindex For UV-mapped textures: receives the index of the UV
- *      source channel. Unmodified otherwise.
- *      Pass NULL if you're not interested in this information.
- *  @param[out] blend Receives the blend factor for the texture
- *      Pass NULL if you're not interested in this information.
- *  @param[out] op Receives the texture blend operation to be perform between
- *		this texture and the previous texture.
- *      Pass NULL if you're not interested in this information.
- *  @param[out] mapmode Receives the mapping modes to be used for the texture.
- *      Pass NULL if you're not interested in this information. Otherwise,
- *      pass a pointer to an array of two aiTextureMapMode's (one for each
- *      axis, UV order).
- *  @return AI_SUCCESS on success, otherwise something else. Have fun.*/
-// ---------------------------------------------------------------------------
-#ifdef __cplusplus
-ASSIMP_API aiReturn aiGetMaterialTexture(const C_STRUCT aiMaterial* mat,
-	aiTextureType type,
-    unsigned int  index,
-    aiString* path,
-	aiTextureMapping* mapping	= NULL,
-    unsigned int* uvindex		= NULL,
-    float* blend				= NULL,
-    aiTextureOp* op				= NULL,
-	aiTextureMapMode* mapmode	= NULL,
-	unsigned int* flags         = NULL);
-#else
-C_ENUM aiReturn aiGetMaterialTexture(const C_STRUCT aiMaterial* mat,
-    C_ENUM aiTextureType type,
-    unsigned int  index,
-    C_STRUCT aiString* path,
-	C_ENUM aiTextureMapping* mapping	/*= NULL*/,
-    unsigned int* uvindex				/*= NULL*/,
-    float* blend						/*= NULL*/,
-    C_ENUM aiTextureOp* op				/*= NULL*/,
-	C_ENUM aiTextureMapMode* mapmode	/*= NULL*/,
-	unsigned int* flags                 /*= NULL*/);
-#endif // !#ifdef __cplusplus
-
+  {** @brief Helper function to get all values pertaining to a particular
+   *  texture slot from a material structure.
+   *
+   *  This function is provided just for convenience. You could also read the
+   *  texture by parsing all of its properties manually. This function bundles
+   *  all of them in a huge function monster.
+   *
+   *  @param[in] mat Pointer to the input material. May not be NULL
+   *  @param[in] type Specifies the texture stack to read from (e.g. diffuse,
+   *     specular, height map ...).
+   *  @param[in] index Index of the texture. The function fails if the
+   *     requested index is not available for this texture type.
+   *     #aiGetMaterialTextureCount() can be used to determine the number of
+   *     textures in a particular texture stack.
+   *  @param[out] path Receives the output path
+   *      This parameter must be non-null.
+   *  @param mapping The texture mapping mode to be used.
+   *      Pass NULL if you're not interested in this information.
+   *  @param[out] uvindex For UV-mapped textures: receives the index of the UV
+   *      source channel. Unmodified otherwise.
+   *      Pass NULL if you're not interested in this information.
+   *  @param[out] blend Receives the blend factor for the texture
+   *      Pass NULL if you're not interested in this information.
+   *  @param[out] op Receives the texture blend operation to be perform between
+   *		this texture and the previous texture.
+   *      Pass NULL if you're not interested in this information.
+   *  @param[out] mapmode Receives the mapping modes to be used for the texture.
+   *      Pass NULL if you're not interested in this information. Otherwise,
+   *      pass a pointer to an array of two aiTextureMapMode's (one for each
+   *      axis, UV order).
+   *  @return AI_SUCCESS on success, otherwise something else. Have fun.*}
+function aiGetMaterialTexture(const pMat: PaiMaterial;
+                              type_: TaiTextureType;
+                              path: PaiString;
+                              mapping: PaiTextureMapping = nil;
+                              uvindex: PCUInt = nil;
+                              blend: PSingle = nil;
+                              op: PaiTextureOP = nil;
+                              mapmode: PaiTextureMapMode = nil;
+                              flags: PCUInt = nil): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialTexture' {$ENDIF} {$ENDIF};
