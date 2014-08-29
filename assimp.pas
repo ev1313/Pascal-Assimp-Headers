@@ -120,5 +120,10 @@ begin
   Result := aiGetMaterialFloatArray(pMat, pKey, type_, index, pOut, nil);
 end;
 
+function aiGetMaterialInteger(const pMat: PaiMaterial; const pKey: PChar; type_: CUInt; index: CUInt; pOut: PInteger): TaiReturn;
+begin
+  Result := aiGetMaterialIntegerArray(pMat, pKey, type_, index, pOut, nil);
+end;
+
 end.
 

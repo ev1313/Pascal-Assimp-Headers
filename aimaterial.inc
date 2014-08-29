@@ -767,30 +767,12 @@ function aiGetMaterialInteger(const pMat: PaiMaterial;
                               type_: CUInt;
                               index: CUInt;
                               pOut: PInteger
-                              ): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialInteger' {$ENDIF} {$ENDIF};
-inline aiReturn aiGetMaterialInteger(const C_STRUCT aiMaterial* pMat,
-	const char* pKey,
-	unsigned int type,
-   unsigned int index,
-	int* pOut)
-{
-	return aiGetMaterialIntegerArray(pMat,pKey,type,index,pOut,(unsigned int*)0x0);
-}
-
-#else
-
-// use our friend, the C preprocessor
-#define aiGetMaterialInteger (pMat, type, index, pKey, pOut) \
-    aiGetMaterialIntegerArray(pMat, type, index, pKey, pOut, NULL)
-
-#endif //!__cplusplus
-
-
+                              ): TaiReturn; inline;
 
 // ---------------------------------------------------------------------------
-/** @brief Retrieve a color value from the material property table
-*
-* See the sample for aiGetMaterialFloat for more information*/
+  {** @brief Retrieve a color value from the material property table
+  *
+  * See the sample for aiGetMaterialFloat for more information*}
 // ---------------------------------------------------------------------------
 ASSIMP_API C_ENUM aiReturn aiGetMaterialColor(const C_STRUCT aiMaterial* pMat,
     const char* pKey,
@@ -800,9 +782,9 @@ ASSIMP_API C_ENUM aiReturn aiGetMaterialColor(const C_STRUCT aiMaterial* pMat,
 
 
 // ---------------------------------------------------------------------------
-/** @brief Retrieve a aiUVTransform value from the material property table
-*
-* See the sample for aiGetMaterialFloat for more information*/
+  {** @brief Retrieve a aiUVTransform value from the material property table
+  *
+  * See the sample for aiGetMaterialFloat for more information*}
 // ---------------------------------------------------------------------------
 ASSIMP_API C_ENUM aiReturn aiGetMaterialUVTransform(const C_STRUCT aiMaterial* pMat,
     const char* pKey,
