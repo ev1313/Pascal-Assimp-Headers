@@ -1,7 +1,7 @@
 //from anim.h
 
 // ---------------------------------------------------------------------------
-/** A time-value pair specifying a certain 3D vector for the given time. */
+  {** A time-value pair specifying a certain 3D vector for the given time. *}
   TaiVectorKey = record
     {** The time of this key *}
     mTime: Double;	
@@ -22,7 +22,7 @@
   PaiQuatKey = ^TaiQuatKey;
 
 // ---------------------------------------------------------------------------
-/** Binds a anim mesh to a specific point in time. */
+  {** Binds a anim mesh to a specific point in time. *}
   TaiMeshKey = record
     {** The time of this key *}
     mTime: Double;
@@ -105,7 +105,7 @@ type
      *
      *  The default value is aiAnimBehaviour_DEFAULT (the original
      *  transformation matrix of the affected node is used).*}
-    aiAnimBehaviour mPreState: TaiAnimBehaviour;  
+    mPreState: TaiAnimBehaviour;
     {** Defines how the animation behaves after the last 
      *  key was processed.
      *
@@ -114,6 +114,7 @@ type
     mPostState: TaiAnimBehaviour;
   end;
   PaiNodeAnim = ^TaiNodeAnim;
+  PPaiNodeAnim = ^PaiNodeAnim;
 
 // ---------------------------------------------------------------------------
   {** Describes vertex-based animations for a single mesh or a group of
@@ -135,6 +136,7 @@ type
     mKeys: PaiMeshKey;
   end;
   PaiMeshAnim = ^TaiMeshAnim;
+  PPaiMeshAnim = ^PaiMeshAnim;
 
 // ---------------------------------------------------------------------------
 type
@@ -163,3 +165,4 @@ type
     mMeshChannels: PPaiMeshAnim;
   end;
   PaiAnimation = ^TaiAnimation;
+  PPaiAnimation = ^PaiAnimation;

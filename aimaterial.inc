@@ -483,6 +483,7 @@ type
     mNumAllocated: CUInt;
   end;
   PaiMaterial = ^TaiMaterial;
+  PPaiMaterial = ^PaiMaterial;
 
 // ---------------------------------------------------------------------------
 {$DEFINE AI_MATKEY_NAME:='?mat.name',0,0}

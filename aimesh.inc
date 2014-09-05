@@ -63,7 +63,7 @@ type
     mIndices: PCUInt;
   end;
   PaiFace = ^TaiFace;
-
+  PPaiFace = ^PaiFace;
 
 // ---------------------------------------------------------------------------
   {** @brief A single influence of a bone on a vertex. *}
@@ -76,7 +76,7 @@ type
     mWeight: Single;
   end;
   PaiVertexWeight = ^TaiVertexWeight;
-
+  PPaiVertexWeight = ^PaiVertexWeight;
 
 // ---------------------------------------------------------------------------
   {** @brief A single bone of a mesh.
@@ -215,7 +215,7 @@ type
   * aiScene::mFlags
   * @endcode
   *}
-  aiMesh = record
+  TaiMesh = record
     {** Bitwise combination of the members of the #aiPrimitiveType enum.
      * This specifies which types of primitives are present in the mesh.
      * The "SortByPrimitiveType"-Step can be used to make sure the
@@ -355,4 +355,6 @@ type
      *  mesh'es vertex components (usually positions, normals). *}
     mAnimMeshes: PPaiAnimMesh;
   end;
+  PaiMesh = ^TaiMesh;
+  PPaiMesh = ^PaiMesh;
 

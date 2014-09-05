@@ -149,4 +149,5 @@ type
     mAngleOuterCone: Single;
   end;
   PaiLight = ^TaiLight;
+  PPaiLight = ^PaiLight;
 

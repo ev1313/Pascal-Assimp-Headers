@@ -114,3 +114,4 @@ type
     mAspect: Single;
   end;
   PaiCamera = ^TaiCamera;
+  PPaiCamera = ^PaiCamera;

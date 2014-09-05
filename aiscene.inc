@@ -1,7 +1,8 @@
 //from scene.h
 
 // -------------------------------------------------------------------------------
-  {** A node in the imported hierarchy. 
+type
+  {** A node in the imported hierarchy.
    *
    * Each node has name, a parent node (except for the root node), 
    * a transformation relative to its parent and possibly several child nodes.
@@ -9,6 +10,8 @@
    * the imported scene does consist of only a single root node without children.
    *}
 // -------------------------------------------------------------------------------
+  PaiNode = ^TaiNode;
+  PPaiNode = ^PaiNode;
   TaiNode = record
     {** The name of the node. 
      *
@@ -32,32 +35,32 @@
      * surrounded by @verbatim <> @endverbatim e.g.
      *  @verbatim<DummyRootNode> @endverbatim.
      *}
-	  mName: TaiString;
+    mName: TaiString;
 
-	  {** The transformation relative to the node's parent. *}
-	  mTransformation: TaiMatrix4x4;
+    {** The transformation relative to the node's parent. *}
+    mTransformation: TaiMatrix4x4;
 
-	  {** Parent node. NULL if this node is the root node. *}
-	  mParent: PaiNode;
+    {** Parent node. NULL if this node is the root node. *}
+    mParent: PaiNode;
 
-	  {** The number of child nodes of this node. *}
-	  mNumChildren: CUInt;
+    {** The number of child nodes of this node. *}
+    mNumChildren: CUInt;
 
-  	{** The child nodes of this node. NULL if mNumChildren is 0. *}
-	  mChildren: PPaiNode;
+    {** The child nodes of this node. NULL if mNumChildren is 0. *}
+    mChildren: PPaiNode;
 
-	  {** The number of meshes of this node. *}
-	  mNumMeshes: CUInt;
+    {** The number of meshes of this node. *}
+    mNumMeshes: CUInt;
 
-  	{** The meshes of this node. Each entry is an index into the mesh *}
-	  mMeshes: PCUInt;
+    {** The meshes of this node. Each entry is an index into the mesh *}
+    mMeshes: PCUInt;
 
     {** Metadata associated with this node or NULL if there is no metadata.
       *  Whether any metadata is generated depends on the source file format. See the
       * @link importer_notes @endlink page for more information on every source file
       * format. Importers that don't document any metadata don't write any. 
       *}
-	  mMetaData: PaiMetadata;
+    mMetaData: PaiMetadata;
   end;
 
 // -------------------------------------------------------------------------------
@@ -104,7 +107,6 @@ const
    * need to render it).
    *}
   AI_SCENE_FLAGS_TERRAIN = $10;
-
 
 // -------------------------------------------------------------------------------
 type

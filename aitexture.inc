@@ -73,5 +73,4 @@
     pcData: PaiTexel;
   end;
   PaiTexture = ^TaiTexture;
-
-
+  PPaiTexture = ^PaiTexture;
