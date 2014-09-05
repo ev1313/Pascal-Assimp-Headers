@@ -73,7 +73,7 @@ unit assimp;
 interface
 
 uses
-  Classes, SysUtils, unixtype;
+  Classes, SysUtils, CTypes;
 const
   {$IFDEF WINDOWS}
     ASSIMP_LibName = 'Assimp.dll';
@@ -114,6 +114,8 @@ const
   {$I aimetadata.inc}
   {$I aianim.inc}
   {$I aiscene.inc}
+  {$I aipostprocess.inc}
+  {$I aifileio.inc}
 
 implementation
 
