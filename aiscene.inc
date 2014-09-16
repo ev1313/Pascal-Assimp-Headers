@@ -196,4 +196,5 @@ type
     mPrivate: PChar;
   end;
   PaiScene = ^TaiScene;
+  PPaiScene = ^PaiScene;
 

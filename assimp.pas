@@ -25,6 +25,10 @@ unit assimp;
   "camera.h",
   "material.h",
   "scene.h",
+  "postprocess.h",
+  "fileio.h",
+  "cimport.h",
+  "cexport.h"
 
   Original License:
 
@@ -73,24 +77,26 @@ unit assimp;
 interface
 
 uses
-  Classes, SysUtils, CTypes;
+  {$IFDEF UNIX} unixtype,
+  {$ELSE} ctypes, {$ENDIF}
+  Classes, SysUtils;
 const
   {$IFDEF WINDOWS}
-    ASSIMP_LibName = 'Assimp.dll';
+    ASSIMP_LibName = 'assimp.dll';
   {$ENDIF}
   {$IFDEF UNIX}
     {$IFDEF DARWIN}
-      ASSIMP_LibName = 'libAssimp.dylib';
+      ASSIMP_LibName = 'libassimp.dylib';
     {$ELSE}
       {$IFDEF FPC}
-        ASSIMP_LibName = 'libAssimp.so';
+        ASSIMP_LibName = 'libassimp.so';
       {$ELSE}
-        ASSIMP_LibName = 'libAssimp.so.0';
+        ASSIMP_LibName = 'libassimp.so.0';
       {$ENDIF}
     {$ENDIF}
   {$ENDIF}
   {$IFDEF MACOS}
-    ASSIMP_LibName = 'SDL2';
+    ASSIMP_LibName = 'assimp';
     {$IFDEF FPC}
       {$linklib libAssimp}
     {$ENDIF}
@@ -116,6 +122,9 @@ const
   {$I aiscene.inc}
   {$I aipostprocess.inc}
   {$I aifileio.inc}
+  {$I aiimport.inc}
+  {$I aiexport.inc}
+  {$I aiimporterdesc.inc}
 
 implementation
 

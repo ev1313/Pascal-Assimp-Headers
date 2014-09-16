@@ -1,41 +1,47 @@
 //from cimport.h
 
 type
-  TaiLogStreamCallback = procedure(const message_: PChar; user: PChar);
+  TaiLogStreamCallback = procedure(const a: PChar {* message *}; b: PChar {* user *});
 
 // --------------------------------------------------------------------------------
-{** C-API: Represents a log stream. A log stream receives all log messages and
- *  streams them _somewhere_.
- *  @see aiGetPredefinedLogStream
- *  @see aiAttachLogStream
- *  @see aiDetachLogStream *}
+  {** C-API: Represents a log stream. A log stream receives all log messages and
+   *  streams them _somewhere_.
+   *  @see aiGetPredefinedLogStream
+   *  @see aiAttachLogStream
+   *  @see aiDetachLogStream *}
 // --------------------------------------------------------------------------------
   TaiLogStream = record
-    {** callback to be called *}
-    callback: TaiLogStreamCallback;
+	{** callback to be called *}
+	callback: TaiLogStreamCallback;
 
-    {** user data to be passed to the callback *}
-    user: PChar;
+	{** user data to be passed to the callback *}
+	user: PChar;
   end;
+  PaiLogStream = ^TaiLogStream;
 
 // --------------------------------------------------------------------------------
-{** C-API: Represents an opaque set of settings to be used during importing.
- *  @see aiCreatePropertyStore
- *  @see aiReleasePropertyStore
- *  @see aiImportFileExWithProperties
- *  @see aiSetPropertyInteger
- *  @see aiSetPropertyFloat
- *  @see aiSetPropertyString
- *  @see aiSetPropertyMatrix
- *}
+  {** C-API: Represents an opaque set of settings to be used during importing.
+   *  @see aiCreatePropertyStore
+   *  @see aiReleasePropertyStore
+   *  @see aiImportFileExWithProperties
+   *  @see aiSetPropertyInteger
+   *  @see aiSetPropertyFloat
+   *  @see aiSetPropertyString
+   *  @see aiSetPropertyMatrix
+   *}
 // --------------------------------------------------------------------------------
-struct aiPropertyStore { char sentinel; };
+  TaiPropertyStore = record
+    sentinel: Char; 
+  end;
+  PaiPropertyStore = ^TaiPropertyStore;
 
-{** Our own C boolean type *}
-typedef int aiBool;
+const
+  AI_FALSE = 0;
+  AI_TRUE = 1;
 
-#define AI_FALSE 0
-#define AI_TRUE 1
+type
+  {** Our own C boolean type *}
+  TaiBool = Integer;
 
 // --------------------------------------------------------------------------------
 {** Reads the given file and returns its content.
@@ -53,9 +59,7 @@ typedef int aiBool;
  *   #aiPostProcessSteps flags.
  * @return Pointer to the imported data or NULL if the import failed. 
  *}
-ASSIMP_API const C_STRUCT aiScene* aiImportFile( 
-	const char* pFile, 
-	unsigned int pFlags);
+function aiImportFile(const pFile: PChar; pFlags: CUInt): PaiScene cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiImportFile' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Reads the given file using user-defined I/O functions and returns 
@@ -78,10 +82,7 @@ ASSIMP_API const C_STRUCT aiScene* aiImportFile(
  * @return Pointer to the imported data or NULL if the import failed.  
  * @note Include <aiFileIO.h> for the definition of #aiFileIO.
  *}
-ASSIMP_API const C_STRUCT aiScene* aiImportFileEx( 
-	const char* pFile,
-	unsigned int pFlags,
-	C_STRUCT aiFileIO* pFS);
+function aiImportFileEx(const pFile: PChar; pFlags: CUInt; pFS: PaiFileIO): PaiScene cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiImportFileEx' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Same as #aiImportFileEx, but adds an extra parameter containing importer settings.
@@ -89,11 +90,7 @@ ASSIMP_API const C_STRUCT aiScene* aiImportFileEx(
  * @param pProps #aiPropertyStore instance containing import settings. 
  * @see aiImportFileEx
  *}
-ASSIMP_API const C_STRUCT aiScene* aiImportFileExWithProperties( 
-	const char* pFile,
-	unsigned int pFlags,
-	C_STRUCT aiFileIO* pFS,
-	const C_STRUCT aiPropertyStore* pProps);
+function aiImportFileExWithProperties(const pFile: PChar; pFlags: CUInt; pFS: PaiFileIO; const pProps: PaiPropertyStore): PaiScene cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiImportFileExWithProperties' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Reads the given file from a given memory buffer,
@@ -126,11 +123,7 @@ ASSIMP_API const C_STRUCT aiScene* aiImportFileExWithProperties(
  * a custom IOSystem to make Assimp find these files and use
  * the regular aiImportFileEx()/aiImportFileExWithProperties() API.
  *}
-ASSIMP_API const C_STRUCT aiScene* aiImportFileFromMemory( 
-	const char* pBuffer,
-	unsigned int pLength,
-	unsigned int pFlags,
-	const char* pHint);
+function aiImportFileFromMemory(const pBuffer: PChar; pLength: CUInt; pFlags: CUInt; const pHint: PChar): PaiScene cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiImportFileFromMemory' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Same as #aiImportFileFromMemory, but adds an extra parameter containing importer settings.
@@ -138,12 +131,7 @@ ASSIMP_API const C_STRUCT aiScene* aiImportFileFromMemory(
  * @param pProps #aiPropertyStore instance containing import settings. 
  * @see aiImportFileFromMemory
  *}
-ASSIMP_API const C_STRUCT aiScene* aiImportFileFromMemoryWithProperties( 
-	const char* pBuffer,
-	unsigned int pLength,
-	unsigned int pFlags,
-	const char* pHint,
-	const C_STRUCT aiPropertyStore* pProps);
+function aiImportFileFromMemoryWithProperties(const pBuffer: PChar; pLength: CUInt; pFlags: CUInt; const pHint: PChar; const pProps: PaiPropertyStore): PaiScene cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiImportFileFromMemoryWithProperties' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Apply post-processing to an already-imported scene.
@@ -160,9 +148,7 @@ ASSIMP_API const C_STRUCT aiScene* aiImportFileFromMemoryWithProperties(
  *   the #aiProcess_ValidateDS flag is currently the only post processing step 
  *   which can actually cause the scene to be reset to NULL.
  *}
-ASSIMP_API const C_STRUCT aiScene* aiApplyPostProcessing(
-	const C_STRUCT aiScene* pScene,
-	unsigned int pFlags);
+function aiApplyPostProcessing(const pScene: PaiScene; pFlags: CUInt): PaiScene cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiApplyPostProcessing' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Get one of the predefine log streams. This is the quick'n'easy solution to 
@@ -184,9 +170,7 @@ ASSIMP_API const C_STRUCT aiScene* aiApplyPostProcessing(
  *    Pass NULL for all other flags.
  *  @return The log stream. callback is set to NULL if something went wrong.
  *}
-ASSIMP_API C_STRUCT aiLogStream aiGetPredefinedLogStream(
-	C_ENUM aiDefaultLogStream pStreams,
-	const char* file);
+function aiGetPredefinedLogStream(pStreams: TaiDefaultLogStream; const file_: PChar): TaiLogStream cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetPredefinedLogStream' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Attach a custom log stream to the libraries' logging system.
@@ -198,8 +182,7 @@ ASSIMP_API C_STRUCT aiLogStream aiGetPredefinedLogStream(
  *    call aiDetachLogStream() on every single log stream you attach. 
  *    Alternatively (for the lazy folks) #aiDetachAllLogStreams is provided.
  *}
-ASSIMP_API void aiAttachLogStream(
-	const C_STRUCT aiLogStream* stream);
+procedure aiAttachLogStream(const stream: PaiLogStream) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiAttachLogStream' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Enable verbose logging. Verbose logging includes debug-related stuff and
@@ -208,7 +191,7 @@ ASSIMP_API void aiAttachLogStream(
  *  didn't read correctly.
  *  @param d AI_TRUE or AI_FALSE, your decision.
  *}
-ASSIMP_API void aiEnableVerboseLogging(aiBool d);
+procedure aiEnableVerboseLogging(d: TaiBool) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiEnableVerboseLogging' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Detach a custom log stream from the libraries' logging system.
@@ -219,8 +202,7 @@ ASSIMP_API void aiEnableVerboseLogging(aiBool d);
  *  @return AI_SUCCESS if the log stream has been detached successfully.
  *  @see aiDetachAllLogStreams
  *}
-ASSIMP_API C_ENUM aiReturn aiDetachLogStream(
-	const C_STRUCT aiLogStream* stream);
+function aiDetachLogStream(const stream: PaiLogStream): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiDetachLogStream' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Detach all active log streams from the libraries' logging system.
@@ -230,7 +212,7 @@ ASSIMP_API C_ENUM aiReturn aiDetachLogStream(
  *  @see aiAttachLogStream
  *  @see aiDetachLogStream
  *}
-ASSIMP_API void aiDetachAllLogStreams(void);
+procedure aiDetachAllLogStreams() cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiDetachAllLogStreams' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Releases all resources associated with the given import process.
@@ -238,8 +220,7 @@ ASSIMP_API void aiDetachAllLogStreams(void);
  * Call this function after you're done with the imported data.
  * @param pScene The imported data to release. NULL is a valid value.
  *}
-ASSIMP_API void aiReleaseImport( 
-	const C_STRUCT aiScene* pScene);
+procedure aiReleaseImport(const pScene: PaiScene) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiReleaseImport' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Returns the error text of the last failed import process. 
@@ -248,7 +229,7 @@ ASSIMP_API void aiReleaseImport(
  * import process. NULL if there was no error. There can't be an error if you
  * got a non-NULL #aiScene from #aiImportFile/#aiImportFileEx/#aiApplyPostProcessing.
  *}
-ASSIMP_API const char* aiGetErrorString();
+function aiGetErrorString(): PChar cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetErrorString' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Returns whether a given file extension is supported by ASSIMP
@@ -257,8 +238,7 @@ ASSIMP_API const char* aiGetErrorString();
  * Must include a leading dot '.'. Example: ".3ds", ".md3"
  * @return AI_TRUE if the file extension is supported.
  *}
-ASSIMP_API aiBool aiIsExtensionSupported(
-	const char* szExtension);
+function aiIsExtensionSupported(const szExtension: PChar): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiIsExtensionSupported' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Get a list of all file extensions supported by ASSIMP.
@@ -268,19 +248,14 @@ ASSIMP_API aiBool aiIsExtensionSupported(
  * @param szOut String to receive the extension list.
  * Format of the list: "*.3ds;*.obj;*.dae". NULL is not a valid parameter.
  *}
-ASSIMP_API void aiGetExtensionList(
-	C_STRUCT aiString* szOut);
+procedure aiGetExtensionList(szOut: PaiString) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetExtensionList' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Get the approximated storage required by an imported asset
  * @param pIn Input asset.
  * @param in Data structure to be filled. 
  *}
-ASSIMP_API void aiGetMemoryRequirements(
-	const C_STRUCT aiScene* pIn,
-	C_STRUCT aiMemoryInfo* in);
-
-
+procedure aiGetMemoryRequirements(const pIn: PaiScene; in_: PaiMemoryInfo) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMemoryRequirements' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Create an empty property store. Property stores are used to collect import
@@ -288,13 +263,13 @@ ASSIMP_API void aiGetMemoryRequirements(
  * @return New property store. Property stores need to be manually destroyed using
  *   the #aiReleasePropertyStore API function.
  *}
-ASSIMP_API C_STRUCT aiPropertyStore* aiCreatePropertyStore(void);
+function aiCreatePropertyStore(): PaiPropertyStore cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiCreatePropertyStore' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Delete a property store.
  * @param p Property store to be deleted.
  *}
-ASSIMP_API void aiReleasePropertyStore(C_STRUCT aiPropertyStore* p);
+procedure aiReleasePropertyStore(p: PaiPropertyStore) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiReleasePropertyStore' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Set an integer property. 
@@ -307,10 +282,7 @@ ASSIMP_API void aiReleasePropertyStore(C_STRUCT aiPropertyStore* p);
  *   public properties are defined in the config.h header file (#AI_CONFIG_XXX).
  * @param value New value for the property
  *}
-ASSIMP_API void aiSetImportPropertyInteger(
-	C_STRUCT aiPropertyStore* store,
-	const char* szName, 
-	int value);
+procedure aiSetImportPropertyInteger(store: PaiPropertyStore; const szName: PChar; value: Integer) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiImportPropertyStore' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Set a floating-point property. 
@@ -323,10 +295,7 @@ ASSIMP_API void aiSetImportPropertyInteger(
  *   public properties are defined in the config.h header file (#AI_CONFIG_XXX).
  * @param value New value for the property
  *}
-ASSIMP_API void aiSetImportPropertyFloat(
-	C_STRUCT aiPropertyStore* store,
-	const char* szName,
-	float value);
+procedure aiSetImportPropertyFloat(store: PaiPropertyStore; const szName: PChar; value: Single) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiSetImportPropertyStore' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Set a string property. 
@@ -340,10 +309,7 @@ ASSIMP_API void aiSetImportPropertyFloat(
  *   public properties are defined in the config.h header file (#AI_CONFIG_XXX).
  * @param value New value for the property
  *}
-ASSIMP_API void aiSetImportPropertyString(
-	C_STRUCT aiPropertyStore* store,
-	const char* szName,
-	const C_STRUCT aiString* st);
+procedure aiSetImportPropertyString(store: PaiPropertyStore; const szName: PChar; const st: PaiString) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiSetImportPropertyString' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Set a matrix property. 
@@ -357,10 +323,7 @@ ASSIMP_API void aiSetImportPropertyString(
  *   public properties are defined in the config.h header file (#AI_CONFIG_XXX).
  * @param value New value for the property
  *}
-ASSIMP_API void aiSetImportPropertyMatrix(
-	C_STRUCT aiPropertyStore* store,
-	const char* szName,
-	const C_STRUCT aiMatrix4x4* mat);
+procedure aiSetImportPropertyMatrix(store: PaiPropertyStore; const szName: PChar; const mat: PaiMatrix4x4) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiSetImportPropertyMatrix' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Construct a quaternion from a 3x3 rotation matrix.
@@ -368,9 +331,7 @@ ASSIMP_API void aiSetImportPropertyMatrix(
  *  @param mat Matrix to 'quaternionize'.
  *  @see aiQuaternion(const aiMatrix3x3& pRotMatrix)
  *}
-ASSIMP_API void aiCreateQuaternionFromMatrix(
-	C_STRUCT aiQuaternion* quat,
-	const C_STRUCT aiMatrix3x3* mat);
+procedure aiCreateQuaternionFromMatrix(quat: PaiQuaternion; const mat: PaiMatrix3x3) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiCreateQuaternionFromMatrix' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Decompose a transformation matrix into its rotational, translational and
@@ -382,73 +343,56 @@ ASSIMP_API void aiCreateQuaternionFromMatrix(
  * @param position Receives the translational component.
  * @see aiMatrix4x4::Decompose (aiVector3D&, aiQuaternion&, aiVector3D&) const;
  *}
-ASSIMP_API void aiDecomposeMatrix(
-	const C_STRUCT aiMatrix4x4* mat,
-	C_STRUCT aiVector3D* scaling, 
-	C_STRUCT aiQuaternion* rotation,
-	C_STRUCT aiVector3D* position);
+procedure aiDecomposeMatrix(const mat: PaiMatrix4x4; scaling: PaiVector3D; rotation: PaiQuaternion; position: PaiVector3D) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiDecomposeMatrix' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Transpose a 4x4 matrix.
  *  @param mat Pointer to the matrix to be transposed
  *}
-ASSIMP_API void aiTransposeMatrix4(
-	C_STRUCT aiMatrix4x4* mat);
+procedure aiTransposeMatrix4(mat: PaiMatrix4x4) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiTransposeMatrix4' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Transpose a 3x3 matrix.
  *  @param mat Pointer to the matrix to be transposed
  *}
-ASSIMP_API void aiTransposeMatrix3(
-	C_STRUCT aiMatrix3x3* mat);
+procedure aiTransposeMatrix3(mat: PaiMatrix3x3) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiTransposeMatrix3' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Transform a vector by a 3x3 matrix
  *  @param vec Vector to be transformed.
  *  @param mat Matrix to transform the vector with.
  *}
-ASSIMP_API void aiTransformVecByMatrix3(
-	C_STRUCT aiVector3D* vec, 
-	const C_STRUCT aiMatrix3x3* mat);
+procedure aiTransformVecByMatrix3(vec: PaiVector3D; const mat: PaiMatrix3x3) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiTransformVecByMatrix3' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Transform a vector by a 4x4 matrix
  *  @param vec Vector to be transformed.
  *  @param mat Matrix to transform the vector with.
  *}
-ASSIMP_API void aiTransformVecByMatrix4(
-	C_STRUCT aiVector3D* vec, 
-	const C_STRUCT aiMatrix4x4* mat);
+procedure aiTransformVecByMatrix4(vec: PaiVector3D; const mat: PaiMatrix4x4) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiTransformVecByMatrix4' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Multiply two 4x4 matrices.
  *  @param dst First factor, receives result.
  *  @param src Matrix to be multiplied with 'dst'.
  *}
-ASSIMP_API void aiMultiplyMatrix4(
-	C_STRUCT aiMatrix4x4* dst, 
-	const C_STRUCT aiMatrix4x4* src);
+procedure aiMultiplyMatrix4(dst: PaiMatrix4x4; const src: PaiMatrix4x4) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiMultiplyMatrix4' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Multiply two 3x3 matrices.
  *  @param dst First factor, receives result.
  *  @param src Matrix to be multiplied with 'dst'.
  *}
-ASSIMP_API void aiMultiplyMatrix3(
-	C_STRUCT aiMatrix3x3* dst, 
-	const C_STRUCT aiMatrix3x3* src);
+procedure aiMultiplyMatrix3(dst: PaiMatrix3x3; const src: PaiMatrix3x3) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiMultiplyMatrix3' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Get a 3x3 identity matrix.
  *  @param mat Matrix to receive its personal identity
  *}
-ASSIMP_API void aiIdentityMatrix3(
-	C_STRUCT aiMatrix3x3* mat);
+procedure aiIdentityMatrix3(mat: PaiMatrix3x3) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiIdentityMatrix3' {$ENDIF} {$ENDIF};
 
 // --------------------------------------------------------------------------------
 {** Get a 4x4 identity matrix.
  *  @param mat Matrix to receive its personal identity
  *}
-ASSIMP_API void aiIdentityMatrix4(
-	C_STRUCT aiMatrix4x4* mat);
-
+procedure aiIdentityMatrix4(mat: PaiMatrix4x4) cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiIdentityMatrix4' {$ENDIF} {$ENDIF};
