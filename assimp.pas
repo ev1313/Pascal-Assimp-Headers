@@ -116,6 +116,7 @@ const
   {$I aimesh.inc}
   {$I ailight.inc}
   {$I aicamera.inc}
+  {$I aimaterialmacros.inc}
   {$I aimaterial.inc}
   {$I aimetadata.inc}
   {$I aianim.inc}
