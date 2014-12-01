@@ -517,6 +517,12 @@ function aiGetMaterialProperty(const pMat: PaiMaterial;
                                index: CUInt;
                                const pPropOut: PPaiMaterialProperty): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialProperty' {$ENDIF} {$ENDIF};
 
+//helper for the macro type
+function aiGetMaterialProperty(const pMat: PaiMaterial;
+                               const matkey: TaiMatKey;
+                               const pPropOut: PPaiMaterialProperty): TaiReturn;
+                               inline;
+
 // ---------------------------------------------------------------------------
   {** @brief Retrieve an array of float values with a specific key
    *  from the material
@@ -550,6 +556,12 @@ function aiGetMaterialFloatArray(const pMat: PaiMaterial;
                                  pOut: PSingle;
                                  pMax: PCUInt): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialFloatArray' {$ENDIF} {$ENDIF};
 
+//helper for the macro type
+function aiGetMaterialFloatArray(const pMat: PaiMaterial;
+                                 const matkey: TaiMatKey;
+                                 pOut: PSingle;
+                                 pMax: PCUInt): TaiReturn; inline;
+
 // ---------------------------------------------------------------------------
  {** @brief Retrieve a single float property with a specific key from the material.
   *
@@ -575,6 +587,11 @@ function aiGetMaterialFloat(const pMat: PaiMaterial;
                             index: CUInt;
                             pOut: PSingle): TaiReturn; inline;
 
+//helper for the macro type
+function aiGetMaterialFloat(const pMat: PaiMaterial;
+                            const matkey: TaiMatKey;
+                            pOut: PSingle): TaiReturn; inline;
+
 // ---------------------------------------------------------------------------
   {** @brief Retrieve an array of integer values with a specific key
    *  from a material
@@ -587,6 +604,12 @@ function aiGetMaterialIntegerArray(const pMat: PaiMaterial;
                                    pOut: PInteger;
                                    pMax: PCUInt): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialIntegerArray' {$ENDIF} {$ENDIF};
 
+//helper for the macro type
+function aiGetMaterialIntegerArray(const pMat: PaiMaterial;
+                                   const matkey: TaiMatKey;
+                                   pOut: PInteger;
+                                   pMax: PCUInt): TaiReturn; inline;
+
 // ---------------------------------------------------------------------------
   {** @brief Retrieve an integer property with a specific key from a material
    *
@@ -595,8 +618,12 @@ function aiGetMaterialInteger(const pMat: PaiMaterial;
                               const pKey: PChar;
                               type_: CUInt;
                               index: CUInt;
-                              pOut: PInteger
-                              ): TaiReturn; inline;
+                              pOut: PInteger): TaiReturn; inline;
+
+//helper for the macro type
+function aiGetMaterialInteger(const pMat: PaiMaterial;
+                              const matkey: TaiMatKey;
+                              pOut: PInteger): TaiReturn; inline;
 
 // ---------------------------------------------------------------------------
   {** @brief Retrieve a color value from the material property table
@@ -608,6 +635,11 @@ function aiGetMaterialColor(const pMat: PaiMaterial;
                             index: CUInt;
                             pOut: PaiColor4D): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialColor' {$ENDIF} {$ENDIF};
 
+//helper for the macro type
+function aiGetMaterialColor(const pMat: PaiMaterial;
+                            const matkey: TaiMatKey;
+                            pOut: PaiColor4D): TaiReturn; inline;
+
 // ---------------------------------------------------------------------------
   {** @brief Retrieve a aiUVTransform value from the material property table
   *
@@ -617,6 +649,12 @@ function aiGetMaterialUVTransform(const pMat: PaiMaterial;
                                   type_: CUInt;
                                   index: CUInt;
                                   pOut: PaiUVTransform): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialUVTransform' {$ENDIF} {$ENDIF};
+
+//helper for the macro type
+//don't works atm, use aiGetMaterialFloatArray instead
+{function aiGetMaterialUVTransform(const pMat: PaiMaterial;
+                                  const matkey: TaiMatKey;
+                                  pOut: PaiUVTransform): TaiReturn; inline;    }
 
 // ---------------------------------------------------------------------------
   {** @brief Retrieve a string from the material property table
@@ -628,6 +666,11 @@ function aiGetMaterialString(const pMat: PaiMaterial;
                              type_: CUInt;
                              index: CUInt;
                              pOut: PaiString): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialString' {$ENDIF} {$ENDIF};
+
+//helper for the macro type
+function aiGetMaterialString(const pMat: PaiMaterial;
+                             const matkey: TaiMatKey;
+                             pOut: PaiString): TaiReturn; inline;
 
 // ---------------------------------------------------------------------------
   {** Get the number of textures for a particular texture type.
