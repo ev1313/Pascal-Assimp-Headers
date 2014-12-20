@@ -140,21 +140,6 @@ const
 type
   TaiTextureMatKey = Byte;
 
-const
-  AI_MATKEY_TEXTURE = 0;
-  AI_MATKEY_UVWSRC = 1;
-  AI_MATKEY_TEXOP = 2;
-  AI_MATKEY_MAPPING = 3;
-  AI_MATKEY_TEXBLEND = 4;
-  AI_MATKEY_MAPPINGMODE_U = 5;
-  AI_MATKEY_MAPPINGMODE_V = 6;
-  AI_MATKEY_TEXMAP_AXIS = 7;
-  AI_MATKEY_UVTRANSFORM = 8;
-  AI_MATKEY_TEXFLAGS = 9;
-
-type
-  TaiMatKey = Byte;
-
 {
 //not translated yet
 
