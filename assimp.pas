@@ -102,8 +102,6 @@ const
     {$ENDIF}
   {$ENDIF}
 
-  {$MACRO ON}
-
   {$I aiversion.inc}
   {$I aivector2.inc}
   {$I aivector3.inc}
@@ -412,7 +410,7 @@ begin
       Result := aiGetMaterialColor(pMat, '?bg.global', 0, 0, pOut);
   end;
 end;
-           {
+
 function aiGetMaterialUVTransform(const pMat: PaiMaterial;
                                   const matkey: TaiMatKey;
                                   pOut: PaiUVTransform): TaiReturn;
@@ -455,7 +453,7 @@ begin
     AI_MATKEY_GLOBAL_BACKGROUND_IMAGE:
       Result := aiGetMaterialUVTransform(pMat, '?bg.global', 0, 0, pOut);
   end;
-end;            }
+end;
 
 function aiGetMaterialString(const pMat: PaiMaterial;
                              const matkey: TaiMatKey;

@@ -654,7 +654,7 @@ function aiGetMaterialUVTransform(const pMat: PaiMaterial;
 //don't works atm, use aiGetMaterialFloatArray instead
 {function aiGetMaterialUVTransform(const pMat: PaiMaterial;
                                   const matkey: TaiMatKey;
-                                  pOut: PaiUVTransform): TaiReturn; inline;    }
+                                  pOut: PaiUVTransform): TaiReturn; inline; }
 
 // ---------------------------------------------------------------------------
   {** @brief Retrieve a string from the material property table
