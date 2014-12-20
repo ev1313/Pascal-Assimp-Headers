@@ -25,6 +25,7 @@ const
 type
   TaiMatKey = Byte;
 
+const
   AI_MATKEY_TEXTURE_DIFFUSE = 0;
   AI_MATKEY_TEXTURE_SPECULAR = 1;
   AI_MATKEY_TEXTURE_AMBIENT = 2;
