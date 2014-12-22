@@ -715,10 +715,10 @@ function aiGetMaterialTextureCount(const pMat: PaiMaterial;
    *  @return AI_SUCCESS on success, otherwise something else. Have fun.*}
 function aiGetMaterialTexture(const pMat: PaiMaterial;
                               type_: TaiTextureType;
+                              index: CUInt;
                               path: PaiString;
                               mapping: PaiTextureMapping = nil;
                               uvindex: PCUInt = nil;
                               blend: PSingle = nil;
                               op: PaiTextureOP = nil;
-                              mapmode: PaiTextureMapMode = nil;
-                              flags: PCUInt = nil): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialTexture' {$ENDIF} {$ENDIF};
+                              mapmode: PaiTextureMapMode = nil): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialTexture' {$ENDIF} {$ENDIF};
