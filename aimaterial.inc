@@ -721,4 +721,5 @@ function aiGetMaterialTexture(const pMat: PaiMaterial;
                               uvindex: PCUInt = nil;
                               blend: PSingle = nil;
                               op: PaiTextureOP = nil;
-                              mapmode: PaiTextureMapMode = nil): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialTexture' {$ENDIF} {$ENDIF};
+                              mapmode: PaiTextureMapMode = nil;
+                              flags: PCUInt = nil): TaiReturn cdecl; external ASSIMP_LibName {$IFDEF DELPHI} {$IFDEF MACOS} name '_aiGetMaterialTexture' {$ENDIF} {$ENDIF};
