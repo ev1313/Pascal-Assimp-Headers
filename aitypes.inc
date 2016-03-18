@@ -57,7 +57,7 @@ type
     length: size_t;
 
     {** String buffer. Size limit is MAXLEN *}
-    data: array[0..MAXLEN] of Char;
+    data: array[0..MAXLEN - 1] of Char;
   end;
   PaiString = ^TaiString;
 
